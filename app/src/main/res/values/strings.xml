@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CryptoSecure</string>
+    <string name="app_register">Registration</string>
+    <string name="main_identifiant">Identifiant</string>
+    <string name="main_password">Mot de passe</string>
+    <string name="title_activity_home_page">HomePage</string>
+</resources>
