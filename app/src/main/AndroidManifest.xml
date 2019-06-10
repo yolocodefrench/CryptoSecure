@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pierre.cryptosecure">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,11 +20,20 @@
         </activity>
         <activity
             android:name=".HomePageActivity"
-            android:label="HomePageActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Identifiants"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".AddWebsite"
+            android:parentActivityName=".HomePageActivity"></activity>
+        <activity
+            android:name=".IdentifiantsActivity"
+            android:label="Site"
+            android:parentActivityName=".HomePageActivity"
+            ></activity>
     </application>
 
 </manifest>

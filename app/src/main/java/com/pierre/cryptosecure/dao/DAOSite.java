@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.pierre.cryptosecure.BaseContrat;
 import com.pierre.cryptosecure.DatabaseHelper;
+import com.pierre.cryptosecure.DialogFragmentShower;
 import com.pierre.cryptosecure.model.Crypto;
 import com.pierre.cryptosecure.model.Site;
 
@@ -33,6 +34,7 @@ public class DAOSite {
                 BaseContrat.SiteContrat.COLONNE_URL,
                 BaseContrat.SiteContrat.COLONNE_IDENTIFIANT,
                 BaseContrat.SiteContrat.COLONNE_PASSWORD,
+                BaseContrat.SiteContrat.COLONNE_ICONE,
         };
         String tri = BaseContrat.SiteContrat.ID + " ASC ";
 
@@ -41,21 +43,13 @@ public class DAOSite {
 
         Cursor cursor = dbRead.query(
                 BaseContrat.SiteContrat.TABLE_SITE,
-
                 projection,  // colonnes à retourner
-
                 selection,  // colonnes pour la clause WHERE (inactif)
-
                 selections, // valeurs pour la clause WHERE (inactif)
-
                 null, // GROUP BY (inactif)
-
                 null,     // HAVING (inactif)
-
                 tri,     // ordre de tri
-
                 null); // LIMIT (inactif)
-
         List<Site> listSite = new ArrayList<>();
         if (cursor != null) {
             try {
@@ -67,9 +61,9 @@ public class DAOSite {
                             cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_URL)),
                             cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_NAME)),
                             cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_IDENTIFIANT)),
-                            cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_PASSWORD))
+                            cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_PASSWORD)),
+                            cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_ICONE))
                     ));
-                    Log.i("Test1", listSite.size() + " ");
                     cursor.moveToNext();
                 }
             } catch (Exception exception) {
@@ -97,7 +91,7 @@ public class DAOSite {
 
         Site site = new Site();
 
-        String selection = BaseContrat.SiteContrat.COLONNE_NAME + " = ? ";
+        String selection = BaseContrat.SiteContrat.ID + " = ? ";
         String[] selectionArgs = {Integer.toString(id)};
 
         Cursor cursor = dbRead.query(
@@ -120,13 +114,13 @@ public class DAOSite {
             try {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
-                    cursor.moveToNext();
-
                     site.setID(id);
                     site.setUrl(cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_URL)));
                     site.setName(cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_NAME)));
                     site.setIdentifiant(cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_NAME)));
                     site.setPassword(cursor.getString(cursor.getColumnIndex(BaseContrat.SiteContrat.COLONNE_PASSWORD)));
+
+                    Log.i("TEST", site.toString());
 
                     return site;
                 }
@@ -139,6 +133,7 @@ public class DAOSite {
         }
         return null;
     }
+
     public void insertSite(Context context, Site site){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         // accès en lecture (query) :
@@ -150,6 +145,7 @@ public class DAOSite {
         values.put(BaseContrat.SiteContrat.COLONNE_IDENTIFIANT, site.getIdentifiant());
         values.put(BaseContrat.SiteContrat.COLONNE_PASSWORD, site.getPassword());
         values.put(BaseContrat.SiteContrat.COLONNE_USER, site.getUser().getID());
+        values.put(BaseContrat.SiteContrat.COLONNE_ICONE, site.getImageBase64());
 
         db.beginTransaction();
 
@@ -190,6 +186,22 @@ public class DAOSite {
                 selectionArgs);
 
         return count;
+    }
+
+    public boolean deleteSite(Context context, int id){
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        // accès en lecture (query) :
+        SQLiteDatabase dbRead = databaseHelper.getReadableDatabase();
+
+        try{
+            dbRead.delete(BaseContrat.SiteContrat.TABLE_SITE,BaseContrat.SiteContrat.ID+"=?",new String[]{Integer.toString(id)});
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

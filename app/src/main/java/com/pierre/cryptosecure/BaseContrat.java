@@ -35,6 +35,7 @@ public class BaseContrat {
         public static final String COLONNE_NAME = "name";
         public static final String COLONNE_IDENTIFIANT = "identifiant";
         public static final String COLONNE_PASSWORD = "password";
+        public static final String COLONNE_ICONE = "icone";
         public static final String COLONNE_USER = "user_id";
     }
 }

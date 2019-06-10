@@ -3,6 +3,7 @@ package com.pierre.cryptosecure;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        Log.i("Test", "Je sui srneyé");
+
         final DAOUser daoUser = new DAOUser();
 
         buttonRegister = findViewById(R.id.buttonRegistration);
@@ -33,12 +36,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String identifiant = identifiantText.getText().toString();
                 String password = passwordText.getText().toString();
+                Log.i("Test", identifiant + ":"+password);
                 if( PasswordChecker.isPasswordValid(password) ) {
                     if( PasswordChecker.isEmailValid(identifiant) ) {
                         if(!daoUser.hasAUserThisId(RegisterActivity.this, identifiant)) {
                             try {
                                 daoUser.insertUser(RegisterActivity.this, new User(identifiant, password));
-                                //RegisterActivity.this.finish();
+                                RegisterActivity.this.finish();
                             } catch (Exception e) {
                                 Toast.makeText(RegisterActivity.this, "Can't register you!! my bad <3", Toast.LENGTH_LONG).show();
                             }

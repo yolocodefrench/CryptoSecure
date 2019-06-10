@@ -12,6 +12,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.pierre.cryptosecure.dao.DAOUser;
+import com.pierre.cryptosecure.model.User;
+
+import org.parceler.Parcels;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonConnection = null;
@@ -35,10 +40,21 @@ public class MainActivity extends AppCompatActivity {
                 String identifiant = identifiantText.getText().toString();
                 String password = passwordText.getText().toString();
 
-                Toast.makeText(MainActivity.this, identifiant + " " + password, Toast.LENGTH_LONG).show();
+                DAOUser daoUser = new DAOUser();
+                User user = new User(identifiant, password);
 
-                Intent intent = new Intent(view.getContext(), HomePageActivity.class);
-                startActivity(intent);
+                User mainUser = daoUser.getUserByIds(MainActivity.this, user);
+
+
+                if( mainUser != null){
+                    Intent intent = new Intent(view.getContext(), HomePageActivity.class);
+                    intent.putExtra("User", Integer.toString(mainUser.getID()));
+                    intent.putExtra("Password", user.getPassword());
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "No user with these credentidals", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -46,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), RegisterActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
         });

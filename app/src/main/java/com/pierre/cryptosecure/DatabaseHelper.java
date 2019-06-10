@@ -22,7 +22,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String NOM_BASE = "crypto.db";
-    private static final int VERSION = 5;
+    private static final int VERSION = 12;
 
     public static final String TABLE_USER_CREATE = "CREATE TABLE " + BaseContrat.UserContrat.TABLE_USER + " (" +
             BaseContrat.UserContrat.ID + " integer primary key autoincrement not null, " +
@@ -44,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             BaseContrat.SiteContrat.COLONNE_PASSWORD + " string, " +
             BaseContrat.SiteContrat.COLONNE_NAME + " string, " +
             BaseContrat.SiteContrat.COLONNE_URL + " string, " +
+            BaseContrat.SiteContrat.COLONNE_ICONE + " string, " +
             BaseContrat.SiteContrat.COLONNE_USER + " integer, " +
             "FOREIGN KEY(" + BaseContrat.SiteContrat.COLONNE_USER + ") REFERENCES "+ BaseContrat.UserContrat.TABLE_USER + "(" + BaseContrat.UserContrat.ID + ")" +
             ");";
@@ -61,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try{
             db.execSQL(TABLE_USER_CREATE);
             db.execSQL(TABLE_CRYPTO_CREATE);
-            db.execSQL(TABLE_CRYPTO_CREATE);
+            db.execSQL(TABLE_SITE_CREATE);
 
             Log.i("sqlite", DatabaseHelper.TABLE_USER_CREATE);
             Log.i("sqlite", DatabaseHelper.TABLE_CRYPTO_CREATE);

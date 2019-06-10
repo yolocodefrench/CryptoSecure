@@ -4,4 +4,13 @@
     <string name="main_identifiant">Identifiant</string>
     <string name="main_password">Mot de passe</string>
     <string name="title_activity_home_page">HomePage</string>
+    <string name="add_site">Ajouter un mot de passe</string>
+
+    <string name="name_website"></string>
+    <string name="uri_website"></string>
+    <string name="identifiant_website"></string>
+    <string name="password_website"></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,6 +1,10 @@
 package com.pierre.cryptosecure.model;
 
+import android.os.Parcelable;
+
 import com.pierre.cryptosecure.utils.Crypter;
+
+import org.parceler.Parcel;
 
 import java.security.MessageDigest;
 
@@ -8,6 +12,7 @@ import java.security.MessageDigest;
  * Created by Utilisateur on 18/03/2019.
  */
 
+@Parcel( Parcel.Serialization.BEAN )
 public class User {
     private int ID;
     private String identifiant;
@@ -20,12 +25,14 @@ public class User {
     public User(String identifiant, String password) {
         this.identifiant = identifiant;
         this.password = password;
+        this.hashedPassword = Crypter.getSha256(this.password);
     }
 
     public User(int ID, String identifiant, String password) {
         this.ID = ID;
         this.identifiant = identifiant;
         this.password = password;
+        this.hashedPassword = Crypter.getSha256(this.password);
     }
 
     public int getID() {
@@ -61,5 +68,7 @@ public class User {
         this.hashedPassword = hashedPassword;
     }
 
-
+    public String toString(){
+        return this.getID() + " " + this.getIdentifiant();
+    }
 }
